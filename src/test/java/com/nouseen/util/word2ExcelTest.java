@@ -10,7 +10,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -56,8 +61,30 @@ public class word2ExcelTest {
     
     @Test
     public void testDeal() throws IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        XWPFDocument docx = new XWPFDocument(POIXMLDocument.openPackage("D:\\白书昌.docx"));
+
+        String sheetName = "resultExcel";
+
+        XWPFDocument docx = new XWPFDocument(POIXMLDocument.openPackage("D:\\白书昌.xml"));
         CheckContent checkContent = Word2excel.dealXWPFDocument(docx);
+
+
+        List<CheckContent> checkContentList = new ArrayList<CheckContent>();
+        checkContentList.add(checkContent);
+
+        Field[] declaredFields = CheckContent.class.getDeclaredFields();
+
+        // 装入标题map
+        Map<String,String> titleMap = new LinkedHashMap<String,String>();
+        for (Field declaredField : declaredFields) {
+            titleMap.put(declaredField.getName(), declaredField.getName());
+        }
+
+        long start = System.currentTimeMillis();
+        ExcelUtil.excelExport(checkContentList, titleMap, sheetName);
+        long end = System.currentTimeMillis();
+        System.out.println("end导出");
+        System.out.println("耗时："+(end-start)+"ms");
+
         System.out.println(checkContent);
 
     }
