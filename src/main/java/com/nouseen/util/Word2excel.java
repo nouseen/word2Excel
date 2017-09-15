@@ -1,34 +1,15 @@
 package com.nouseen.util;
 
-import java.io.*;
-
-import org.apache.poi.hpsf.DocumentSummaryInformation;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hwpf.HWPFDocument;
-import org.apache.poi.hwpf.usermodel.Paragraph;
-import org.apache.poi.hwpf.usermodel.Range;
-import org.apache.poi.hwpf.usermodel.Table;
-import org.apache.poi.hwpf.usermodel.TableCell;
-import org.apache.poi.hwpf.usermodel.TableIterator;
-import org.apache.poi.hwpf.usermodel.TableRow;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.POIXMLDocument;
+import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
+import org.apache.poi.xwpf.usermodel.*;
 
 import java.io.File;
-import java.io.FileInputStream;
-
-import org.apache.poi.POIXMLDocument;
-import org.apache.poi.POIXMLTextExtractor;
-import org.apache.poi.hwpf.extractor.WordExtractor;
-import org.apache.poi.openxml4j.opc.OPCPackage;
-import org.apache.poi.poifs.crypt.Decryptor;
-import org.apache.poi.poifs.crypt.EncryptionInfo;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
-import org.apache.poi.xwpf.usermodel.XWPFTable;
-import org.apache.poi.xwpf.usermodel.XWPFTableCell;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTcPr;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTVMerge;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.STMerge;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by nouseen on 2017/9/10.
@@ -36,126 +17,166 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.STMerge;
 public class Word2excel {
 
 
+    public static void extractContenFromExcel() throws IOException {
 
-    public static void mergeCellVertically(XWPFTable table, int col, int fromRow, int toRow) {
-        for (int rowIndex = fromRow; rowIndex <= toRow; rowIndex++) {
-            CTVMerge vmerge = CTVMerge.Factory.newInstance();
-            if (rowIndex == fromRow) {
-                // The first merged cell is set with RESTART merge value
-                vmerge.setVal(STMerge.RESTART);
-            } else {
-                // Cells which join (merge) the first one, are set with CONTINUE
-                vmerge.setVal(STMerge.CONTINUE);
-            }
-            XWPFTableCell cell = table.getRow(rowIndex).getCell(col);
-            // Try getting the TcPr. Not simply setting an new one every time.
-            CTTcPr tcPr = cell.getCTTc().getTcPr();
-            if (tcPr != null) {
-                tcPr.setVMerge(vmerge);
-            } else {
-                // only set an new TcPr if there is not one already
-                tcPr = CTTcPr.Factory.newInstance();
-                tcPr.setVMerge(vmerge);
-                cell.getCTTc().setTcPr(tcPr);
+        // 输出文件
+        String outPutPath = "D:\\result.txt";
+
+        // 输出流
+        File outPutFile = new File(outPutPath);
+
+        // 写文件流
+        FileWriter fileWriter = new FileWriter(outPutFile);
+
+        // 源
+        String filePath = "D:\\";
+
+        // 拿到目录下的所有的文件
+        File file = new File(filePath);
+        File[] tempList = file.listFiles();
+
+        // 遍历所有文件，拿到所有文档
+        for (File file1 : tempList) {
+            if (file1.getName().contains("docx")) {
+                XWPFDocument docx = new XWPFDocument(POIXMLDocument.openPackage(file1.getAbsolutePath()));
+                XWPFWordExtractor we = new XWPFWordExtractor(docx);
+
+                docx.getBodyElements();
+                // 拿到文档内容
+                String text = we.getText();
+
+                // 输出到文件
+                fileWriter.append(text);
+                fileWriter.flush();
             }
         }
+
+
+        fileWriter.close();
     }
 
-    public void testWord() {
-        try {
-            FileInputStream in = new FileInputStream("D:\\sinye.doc");//载入文档
-            POIFSFileSystem pfs = new POIFSFileSystem(in);
-            HWPFDocument hwpf = new HWPFDocument(pfs);
-            org.apache.poi.hwpf.usermodel.Range range = hwpf.getRange();//得到文档的读取范围
-            TableIterator it = new TableIterator(range);
-            //迭代文档中的表格
-            while (it.hasNext()) {
-                Table tb = (Table) it.next();
-                //迭代行，默认从0开始
-                for (int i = 0; i < tb.numRows(); i++) {
-                    TableRow tr = tb.getRow(i);
-                    //迭代列，默认从0开始
-                    for (int j = 0; j < tr.numCells(); j++) {
-                        org.apache.poi.hwpf.usermodel.TableCell td = tr.getCell(j);//取得单元格
-                        //取得单元格的内容
-                        for (int k = 0; k < td.numParagraphs(); k++) {
-                            org.apache.poi.hwpf.usermodel.Paragraph para = td.getParagraph(k);
-                            String s = para.text();
-                            System.out.println(s);
-                        } //end for
-                    }   //end for
-                }   //end for
-            } //end while
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }//end method
+    /**
+     * 处理中文文档
+     *
+     * @param docx
+     */
+    public static void dealXWPFDocument(XWPFDocument docx) {
+        List<IBodyElement> bodyElements = docx.getBodyElements();
+        System.out.println(bodyElements.size());
+
+        // 拿到表格
+        IBodyElement iBodyElement = bodyElements.get(0);
+        // 拿到全部内容
+        IBody body = iBodyElement.getBody();
+
+        // 获取表格
+        List<XWPFTable> tables = body.getTables();
 
 
-    public static void readDocumentSummary(HWPFDocument doc) {
-        DocumentSummaryInformation summaryInfo = doc.getDocumentSummaryInformation();
-        String category = summaryInfo.getCategory();
-        String company = summaryInfo.getCompany();
-        int lineCount = summaryInfo.getLineCount();
-        int sectionCount = summaryInfo.getSectionCount();
-        int slideCount = summaryInfo.getSlideCount();
+     // String[]keyWordList=new String[]{
+     //        "编号","姓名","类别","工作单位","单位电话","体检单位","检查日期","单位地址","出生地","居民身份证号码"
+     //        ,"个人联系电话","文化程度","职业照射种类","放射线种类","接触放射线工龄","吸烟史","饮酒史","家族史",
+     //        "一般状况","	脉率	","收缩压	","舒张压","	身高","体重	","左眼裸视力	","右眼裸视力","	左眼矫正视力	","右眼矫正视力","	色觉",
+     //        "右眼眼底","左眼眼底","	肝B超","肝B超提示","心电图","白细胞计数(WBC)","红细胞计数(RBC)","血红蛋白量(HGB)","红细胞压积(HCT)"
+     //         ,"平均红细胞体积(MCV)","平均红细胞血红蛋白量(MCH)", "平均红细胞血红蛋白浓度(MCHC)","血小板计数（PLT）","红细胞分布宽度（RDW-SD）"
+     //         ,"红细胞分布宽度（RDW-CV）","血小板分布宽度(PDW)","平均血小板体积(MPV)","大型血小板比率(P-LCR)","血小板压积(PCT)","中性粒细胞百分率(NEUT%)"
+     //         ,"淋巴细胞百分率(LYMPH%)","单核细胞百分率(MONO%)","嗜酸性粒细胞百分率(EO%)","嗜碱性粒细胞百分率(BASO%)","中性粒细胞数(NEUT#)"
+     //         ,"淋巴细胞数(LYMPH#)","单核细胞数(MONO#)","嗜酸性粒细胞数(EO#)","嗜碱性粒细胞数(BASO#)","血糖","丙氨酸氨基转移酶（ALT）","总胆红素（TBIL）"
+     //         ,"总蛋白（TP）","白蛋白（ALB)","球蛋白（GLB)", "白/球比值（A/G）","尿素氮（BUN）","肌酐（CREA）","谷酰转肽酶(GGT)","尿白细胞（WBC）"
+     //         ,"酮体（KET）","亚硝酸（NIT)", "尿胆原（URO)","胆红素（BIL)","尿蛋白质（PRO）	葡萄糖	尿比重（SG）","隐血（BLD）","酸碱值（PH）"
+     //         ,"维C（Vc）", "游离三碘甲状腺原氨酸(FT3)","游离甲状腺素(FT4)","超敏促甲状腺素(TSH)","AFP(化学发光法)","EB病毒壳抗原lgA抗体"
+     //         ,"MN-1000微核分析细胞数", "MN-C微核细胞率","MN微核率","LMY淋巴细胞转化率","染色体分析细胞数","畸变细胞率(染色体型畸变）","染色体型畸变率（%）"
+     //         ,"双着丝粒染色体率(dic)","环状染色体率(r)", "无着丝粒片段率(ace)","相互易位率(t)","倒位率(inv)","染色单体型畸变率（%）"
+     //    };
 
-        System.out.println("---------------------------");
-        System.out.println("Category: " + category);
-        System.out.println("Company: " + company);
-        System.out.println("Line Count: " + lineCount);
-        System.out.println("Section Count: " + sectionCount);
-        System.out.println("Slide Count: " + slideCount);
+        // 遍历每一个表格
+        for (XWPFTable table : tables) {
 
-    }
+            // 整个表的文本
+            String text = table.getText();
 
-    private void handleUpload(File file) {
-        Workbook wb = tryToHandleHSSF(file);
-        if (wb == null)
-            wb = tryToHandleXSSF(file);
-        if (wb != null) {
-            // ... do the parsing stuff
+
+
+            // 拿到每一行
+            table.getNumberOfRows();
+            List<XWPFTableRow> rows = table.getRows();
+            // 遍历行
+            for (XWPFTableRow xwpfTableRow : rows) {
+                // String rowTxt = getRowTxt(xwpfTableRow);
+                // if (rowTxt.contains("检查结果") && ! rowTxt.contains("项目名称")) {
+                //     break;
+                // }
+
+                // if (containList(rowTxt,keyWordList)) {
+                //     System.out.println(rowTxt);
+                //     System.out.println("\n");
+                // }
+
+                List<XWPFTableCell> tableCells = xwpfTableRow.getTableCells();
+                // 拿到每一个单元格，遍历单元格
+                Iterator<XWPFTableCell> iterator = tableCells.iterator();
+                while (iterator.hasNext()) {
+                    XWPFTableCell tableCell = iterator.next();
+                    tableCell.getText();
+                    // 如果内容含有关键字，则取得下一个装入对应的属性
+
+                }
+                // for (XWPFTableCell tableCell : tableCells) {
+                //     String text1 = tableCell.getText();
+                    // if (StringUtils.equals(text1, "编号")) {
+                        // System.out.println();
+                    // }
+                    // System.out.println(text1);
+                    // 如果单元格内容为字段名，则获取下一个单元格的内容
+                // }
+
+            }
         }
     }
 
     /**
-     * helper for HSSF
+     * 获取列文字
+
+     * @param xwpfTableRow
+     * @return
      */
-    public Workbook tryToHandleHSSF(File file) {
-        try {
-            return new HSSFWorkbook(new FileInputStream(file));
-        } catch (Exception e) {
-            return null;
+    private static String getRowTxt(XWPFTableRow xwpfTableRow) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        List<XWPFTableCell> tableCells = xwpfTableRow.getTableCells();
+        for (XWPFTableCell tableCell : tableCells) {
+            stringBuilder.append(tableCell.getText());
+            stringBuilder.append(" ");
         }
+
+        return stringBuilder.toString();
     }
 
     /**
-     * helper for XSSF
+     * 列表中是否包含
+     *
+     * @param text
+     * @param strings
+     * @return
      */
-    public Workbook tryToHandleXSSF(File file) {
-        Workbook workbook;
-        try {
-            InputStream fin = new FileInputStream(file);
-            BufferedInputStream in = new BufferedInputStream(fin);
-            try {
-                if (POIFSFileSystem.hasPOIFSHeader(in)) {
-                    // if the file is encrypted
-                    POIFSFileSystem fs = new POIFSFileSystem(in);
-                    EncryptionInfo info = new EncryptionInfo(fs);
-                    Decryptor d = Decryptor.getInstance(info);
-                    d.verifyPassword(Decryptor.DEFAULT_PASSWORD);
-                    workbook = new org.apache.poi.xssf.usermodel.XSSFWorkbook(d.getDataStream(fs));
-                } else
-                    return new org.apache.poi.xssf.usermodel.XSSFWorkbook(in);
-            } finally {
-                in.close();
-            }
-        } catch (Exception e) {
-            return null;
-        }
-        return workbook;
-    }
+    public static boolean containList(String text, String... strings) {
 
+        if (StringUtils.isBlank(text)) {
+            return false;
+        }
+
+        if (StringUtils.contains(text, "小结")) {
+            return false;
+        }
+        text = text.replaceAll("\\s", "");
+        for (String string : strings) {
+            if (StringUtils.contains(text, string)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
 
 

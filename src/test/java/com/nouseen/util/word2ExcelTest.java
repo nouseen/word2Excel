@@ -1,23 +1,14 @@
 package com.nouseen.util;
 
 import org.apache.poi.POIXMLDocument;
-import org.apache.poi.POIXMLTextExtractor;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hwpf.extractor.WordExtractor;
-import org.apache.poi.openxml4j.opc.OPCPackage;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
-import org.apache.poi.xwpf.usermodel.IBodyElement;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.junit.Test;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTDocument1;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTbl;
-import org.w3c.dom.NodeList;
 
-import javax.print.Doc;
-import java.io.*;
-import java.util.List;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 
 
 /**
@@ -60,5 +51,26 @@ public class word2ExcelTest {
 
         fileWriter.close();
     }
+    
+    @Test
+    public void testDeal() throws IOException {
+        XWPFDocument docx = new XWPFDocument(POIXMLDocument.openPackage("D:\\白书昌.docx"));
+        Word2excel.dealXWPFDocument(docx);
+    }
 
+    @Test
+    public void testDealXml() throws IOException {
+        File file = new File("D:\\白书昌.xml");
+        FileInputStream fileInputStream = new FileInputStream(file);
+
+        XWPFDocument docx = new XWPFDocument(fileInputStream);
+        Word2excel.dealXWPFDocument(docx);
+    }
+
+    @Test
+    public void testContain(){
+        boolean 姓名 = Word2excel.containList("姓  名", "姓名");
+        System.out.println(姓名);
+
+    }
 }
