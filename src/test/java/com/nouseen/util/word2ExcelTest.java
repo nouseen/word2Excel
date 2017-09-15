@@ -1,5 +1,6 @@
 package com.nouseen.util;
 
+import com.nouseen.bean.CheckContent;
 import org.apache.poi.POIXMLDocument;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -9,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 
 /**
@@ -53,13 +55,15 @@ public class word2ExcelTest {
     }
     
     @Test
-    public void testDeal() throws IOException {
+    public void testDeal() throws IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         XWPFDocument docx = new XWPFDocument(POIXMLDocument.openPackage("D:\\白书昌.docx"));
-        Word2excel.dealXWPFDocument(docx);
+        CheckContent checkContent = Word2excel.dealXWPFDocument(docx);
+        System.out.println(checkContent);
+
     }
 
     @Test
-    public void testDealXml() throws IOException {
+    public void testDealXml() throws IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         File file = new File("D:\\白书昌.xml");
         FileInputStream fileInputStream = new FileInputStream(file);
 
