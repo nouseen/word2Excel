@@ -15,6 +15,7 @@ public class Enter {
 
     public static void main(String[] args) throws IOException {
         // 输出流
+
         File outPutFile = new File("D:\\result.text");
         FileWriter fileWriter = new FileWriter(outPutFile);
         // 源
