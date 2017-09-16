@@ -12,10 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -64,7 +61,7 @@ public class word2ExcelTest {
 
         String sheetName = "resultExcel";
 
-        XWPFDocument docx = new XWPFDocument(POIXMLDocument.openPackage("D:\\白书昌.xml"));
+        XWPFDocument docx = new XWPFDocument(POIXMLDocument.openPackage("D:\\白书昌.docx"));
         CheckContent checkContent = Word2excel.dealXWPFDocument(docx);
 
 
@@ -102,6 +99,19 @@ public class word2ExcelTest {
     public void testContain(){
         boolean 姓名 = Word2excel.containList("姓  名", "姓名");
         System.out.println(姓名);
+
+    }
+
+    @Test
+    public void testMatchKeyWord(){
+        String testContent = Word2excel.getTestContent();
+        HashMap<String, String> 配偶职业及健康状况 = Word2excel.matchKeyWords(testContent, "配偶职业及健康状况");
+        Set<Map.Entry<String, String>> entries = 配偶职业及健康状况.entrySet();
+        for (Map.Entry<String, String> entry : entries) {
+            System.out.println(entry.getKey());
+            System.out.println(entry.getValue());
+
+        }
 
     }
 }
