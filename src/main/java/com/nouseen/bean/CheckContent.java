@@ -1,111 +1,335 @@
 package com.nouseen.bean;
 
+import com.nouseen.util.ContentFieldName;
+
 /**
  * Created by nouseen on 2017/9/16.
  */
 public class CheckContent {
+
+    @ContentFieldName("编号")
     private String 编号;
+
+    @ContentFieldName("姓名")
     private String 姓名;
+
+    @ContentFieldName("类别")
     private String 类别;
+
+    @ContentFieldName("工作单位")
     private String 工作单位;
+
+    @ContentFieldName("单位电话")
     private String 单位电话;
+
+    @ContentFieldName("体检单位")
     private String 体检单位;
+
+    @ContentFieldName("检查日期")
     private String 检查日期;
+
+    @ContentFieldName("单位地址")
     private String 单位地址;
+
+
+    @ContentFieldName("性别")
     private String 性别;
+
+    @ContentFieldName("年龄")
     private String 年龄;
+
+    @ContentFieldName("民族")
     private String 民族;
+
+    @ContentFieldName("职务")
     private String 职务;
+
+    @ContentFieldName("出生地")
     private String 出生地;
+
+    @ContentFieldName("居民身份证号码")
     private String 居民身份证号码;
+
+    @ContentFieldName("个人联系电话")
     private String 个人联系电话;
+
+    @ContentFieldName("文化程度")
     private String 文化程度;
+
+
+    @ContentFieldName("职业照射种类")
     private String 职业照射种类;
+
+    @ContentFieldName("放射线种类")
     private String 放射线种类;
+
+    @ContentFieldName("接触放射线工龄")
     private String 接触放射线工龄;
+
+    @ContentFieldName("每日接触放射线时间")
     private String 每日接触放射线时间;
+
+
+    @ContentFieldName("配偶职业及健康状况")
     private String 配偶职业及健康状况;
+
+    @ContentFieldName("吸烟史")
     private String 吸烟史;
+
+    @ContentFieldName("饮酒史")
     private String 饮酒史;
+
+    @ContentFieldName("家族史")
     private String 家族史;
+
+
+    @ContentFieldName("一般状况")
     private String 一般状况;
+
+    @ContentFieldName("脉率")
     private String 脉率;
+
+    @ContentFieldName("收缩压")
     private String 收缩压;
+
+    @ContentFieldName("舒张压")
     private String 舒张压;
+
+
+    @ContentFieldName("身高")
     private String 身高;
+
+    @ContentFieldName("体重")
     private String 体重;
+
+    @ContentFieldName("左眼裸视力")
     private String 左眼裸视力;
+
+    @ContentFieldName("右眼裸视力")
     private String 右眼裸视力;
+
+    @ContentFieldName("左眼矫正视力")
     private String 左眼矫正视力;
+
+    @ContentFieldName("右眼矫正视力")
     private String 右眼矫正视力;
+
+    @ContentFieldName("色觉")
     private String 色觉;
+
+    @ContentFieldName("右眼眼底")
     private String 右眼眼底;
+
+    @ContentFieldName("左眼眼底")
     private String 左眼眼底;
+
+    @ContentFieldName("肝B超")
     private String 肝B超;
+
+    @ContentFieldName("肝B超提示")
     private String 肝B超提示;
+
+    @ContentFieldName("心电图")
     private String 心电图;
+
+    @ContentFieldName("白细胞计数")
     private String 白细胞计数;
+
+    @ContentFieldName("红细胞计数")
     private String 红细胞计数;
+
+
+    @ContentFieldName("血红蛋白量")
     private String 血红蛋白量;
+
+    @ContentFieldName("红细胞压积")
     private String 红细胞压积;
+
+    @ContentFieldName("平均红细胞体积")
     private String 平均红细胞体积;
+
+    @ContentFieldName("平均红细胞血红蛋白量")
     private String 平均红细胞血红蛋白量;
+
+    @ContentFieldName("平均红细胞血红蛋白浓度")
     private String 平均红细胞血红蛋白浓度;
+
+    @ContentFieldName("血小板计数")
     private String 血小板计数;
-    private String 红细胞分布宽度;
-    private String 血小板分布宽度;
+
+    @ContentFieldName("红细胞分布宽度（RDW-SD）")
+    private String 红细胞分布宽度RDWSD;
+
+    @ContentFieldName("红细胞分布宽度（RDW-CV）")
+    private String 血小板分布宽度RDWCV;
+
+    @ContentFieldName("平均血小板体积")
     private String 平均血小板体积;
+
+    @ContentFieldName("大型血小板比率")
     private String 大型血小板比率;
+
+    @ContentFieldName("血小板压积")
     private String 血小板压积;
+
+    @ContentFieldName("中性粒细胞百分率")
     private String 中性粒细胞百分率;
+
+    @ContentFieldName("淋巴细胞百分率")
     private String 淋巴细胞百分率;
+
+    @ContentFieldName("单核细胞百分率")
     private String 单核细胞百分率;
+
+
+    @ContentFieldName("嗜酸性粒细胞百分率")
     private String 嗜酸性粒细胞百分率;
+
+    @ContentFieldName("嗜碱性粒细胞百分率")
     private String 嗜碱性粒细胞百分率;
+
+    @ContentFieldName("中性粒细胞数")
     private String 中性粒细胞数;
+
+    @ContentFieldName("淋巴细胞数")
     private String 淋巴细胞数;
+
+    @ContentFieldName("单核细胞数")
     private String 单核细胞数;
+
+    @ContentFieldName("嗜酸性粒细胞数")
     private String 嗜酸性粒细胞数;
+
+    @ContentFieldName("嗜碱性粒细胞数")
     private String 嗜碱性粒细胞数;
+
+    @ContentFieldName("血糖")
     private String 血糖;
+
+    @ContentFieldName("丙氨酸氨基转移酶")
     private String 丙氨酸氨基转移酶;
+
+    @ContentFieldName("总胆红素（TBIL）")
     private String 总胆红素;
+
+    @ContentFieldName("总蛋白")
     private String 总蛋白;
+
+    @ContentFieldName("白蛋白")
     private String 白蛋白;
+
+
+    @ContentFieldName("球蛋白")
     private String 球蛋白;
+
+    @ContentFieldName("白/球比值（A/G）")
     private String 球比值;
+
+    @ContentFieldName("尿素氮")
     private String 尿素氮;
+
+    @ContentFieldName("肌酐")
     private String 肌酐;
+
+    @ContentFieldName("谷酰转肽酶")
     private String 谷酰转肽酶;
+
+    @ContentFieldName("尿白细胞")
     private String 尿白细胞;
+
+    @ContentFieldName("酮体")
     private String 酮体;
+
+    @ContentFieldName("亚硝酸")
     private String 亚硝酸;
+
+    @ContentFieldName("尿胆原")
     private String 尿胆原;
+
+    @ContentFieldName("胆红素（BIL)")
     private String 胆红素;
+
+    @ContentFieldName("尿蛋白质")
     private String 尿蛋白质;
+
+    @ContentFieldName("葡萄糖")
     private String 葡萄糖;
+
+    @ContentFieldName("尿比重")
     private String 尿比重;
+
+    @ContentFieldName("隐血")
     private String 隐血;
+
+    @ContentFieldName("酸碱值")
     private String 酸碱值;
+
+    @ContentFieldName("维C")
     private String 维C;
+
+
+    @ContentFieldName("游离三碘甲状腺原氨酸")
     private String 游离三碘甲状腺原氨酸;
+
+    @ContentFieldName("游离甲状腺素")
     private String 游离甲状腺素;
+
+
+    @ContentFieldName("超敏促甲状腺素")
     private String 超敏促甲状腺素;
+
+    @ContentFieldName("AFP")
     private String AFP;
+
+
+    @ContentFieldName("EB病毒壳抗原lgA抗体")
     private String EB病毒壳抗原lgA抗体;
+
+    @ContentFieldName("微核分析细胞数")
     private String 微核分析细胞数;
+
+
+    @ContentFieldName("微核细胞率")
     private String 微核细胞率;
+
+    @ContentFieldName("MN微核率")
     private String MN微核率;
+
+
+    @ContentFieldName("LMY淋巴细胞转化率")
     private String LMY淋巴细胞转化率;
+
+    @ContentFieldName("染色体分析细胞数")
     private String 染色体分析细胞数;
+
+
+    @ContentFieldName("畸变细胞率")
     private String 畸变细胞率;
+
+    @ContentFieldName("染色体型畸变率")
     private String 染色体型畸变率;
+
+
+    @ContentFieldName("双着丝粒染色体率")
     private String 双着丝粒染色体率;
+
+    @ContentFieldName("环状染色体率")
     private String 环状染色体率;
+
+
+    @ContentFieldName("无着丝粒片段率")
     private String 无着丝粒片段率;
+
+    @ContentFieldName("相互易位率")
     private String 相互易位率;
+
+
+    @ContentFieldName("倒位率")
     private String 倒位率;
+
+    @ContentFieldName("染色单体型畸变率")
     private String 染色单体型畸变率;
+
 
     public String get尿蛋白质() {
         return 尿蛋白质;
@@ -121,6 +345,22 @@ public class CheckContent {
 
     public void set葡萄糖(String 葡萄糖) {
         this.葡萄糖 = 葡萄糖;
+    }
+
+    public String get红细胞分布宽度RDWSD() {
+        return 红细胞分布宽度RDWSD;
+    }
+
+    public void set红细胞分布宽度RDWSD(String 红细胞分布宽度RDWSD) {
+        this.红细胞分布宽度RDWSD = 红细胞分布宽度RDWSD;
+    }
+
+    public String get血小板分布宽度RDWCV() {
+        return 血小板分布宽度RDWCV;
+    }
+
+    public void set血小板分布宽度RDWCV(String 血小板分布宽度RDWCV) {
+        this.血小板分布宽度RDWCV = 血小板分布宽度RDWCV;
     }
 
     public String get姓名() {
@@ -498,22 +738,6 @@ public class CheckContent {
 
     public void set血小板计数(String 血小板计数) {
         this.血小板计数 = 血小板计数;
-    }
-
-    public String get红细胞分布宽度() {
-        return 红细胞分布宽度;
-    }
-
-    public void set红细胞分布宽度(String 红细胞分布宽度) {
-        this.红细胞分布宽度 = 红细胞分布宽度;
-    }
-
-    public String get血小板分布宽度() {
-        return 血小板分布宽度;
-    }
-
-    public void set血小板分布宽度(String 血小板分布宽度) {
-        this.血小板分布宽度 = 血小板分布宽度;
     }
 
     public String get平均血小板体积() {

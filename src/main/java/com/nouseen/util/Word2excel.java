@@ -92,6 +92,7 @@ public class Word2excel {
 
         XWPFWordExtractor we = new XWPFWordExtractor(docx);
 
+        // 正则处理表格中无法获取到的属性
         getContenNotInCell(checkContent, we.getText());
 
         // 拿到表格
@@ -134,25 +135,16 @@ public class Word2excel {
                     XWPFTableCell tableCell = iterator.next();
                     String label = tableCell.getText();
 
-
-                    // 如果内容含有关键字，则取得下一个装入对应的属性
+                    // 如果内容含有注解，则取得下一个装入对应的属性
                     for (Field field : fields) {
                         // 如果拿到字段名，则进行注入内容
                         String name = field.getName();
-
-                        if (containList(label, name)) {
+                        ContentFieldName annotation = field.getAnnotation(ContentFieldName.class);
+                        if (containList(label, annotation.value())) {
                             if (! iterator.hasNext()) {
                                 break;
                             }
 
-                            // 拿到get方法
-                            if (label.contains("总")) {
-                                if (name.contains("总")) {
-
-                                } else {
-                                    name = "总" + name;
-                                }
-                            }
                             Method methodGet = checkContentClass.getMethod("get" + name, null);
 
                             // 如果字段不为空，则说明已经注入了
@@ -221,7 +213,13 @@ public class Word2excel {
             }
         }
 
-
+        // 单独处理家族史
+        String s = "家族史\\S*\\s*(\\S*)";
+        Pattern pattern = Pattern.compile(s);
+        Matcher matcher = pattern.matcher(text);
+        if (matcher.find()) {
+            checkContent.set家族史(matcher.group(1));
+        }
     }
 
 
