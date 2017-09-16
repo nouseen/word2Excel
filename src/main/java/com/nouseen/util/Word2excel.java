@@ -162,23 +162,6 @@ public class Word2excel {
                             // 拿到值
                             String value = iterator.next().getText();
 
-                            // 如果值为空，则一直拿到值为止
-                            while (StringUtils.isBlank(value)) {
-                                if (iterator.hasNext()) {
-                                    // 在当前行拿值
-                                    value = iterator.next().getText();
-                                } else {
-                                    // 拿到下一列
-                                    XWPFTableRow nextRow = xwpfTableRowIterator.next();
-
-                                    // 当前行单元格
-                                    List<XWPFTableCell> nextAbleCells = xwpfTableRow.getTableCells();
-
-                                    // 拿到本行单元格的迭代器
-                                    iterator = nextAbleCells.iterator();
-                                }
-                            }
-
                             // 拿到set 方法
                             Method method = checkContentClass.getMethod("set" + name, String.class);
                             // 反射调用

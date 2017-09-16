@@ -16,8 +16,6 @@ public class CheckContent {
     private String 年龄;
     private String 民族;
     private String 职务;
-
-
     private String 出生地;
     private String 居民身份证号码;
     private String 个人联系电话;
@@ -75,7 +73,7 @@ public class CheckContent {
     private String 总蛋白;
     private String 白蛋白;
     private String 球蛋白;
-    private String 球比值G;
+    private String 球比值;
     private String 尿素氮;
     private String 肌酐;
     private String 谷酰转肽酶;
@@ -84,7 +82,8 @@ public class CheckContent {
     private String 亚硝酸;
     private String 尿胆原;
     private String 胆红素;
-    private String 尿蛋白质葡萄糖;
+    private String 尿蛋白质;
+    private String 葡萄糖;
     private String 尿比重;
     private String 隐血;
     private String 酸碱值;
@@ -107,6 +106,22 @@ public class CheckContent {
     private String 相互易位率;
     private String 倒位率;
     private String 染色单体型畸变率;
+
+    public String get尿蛋白质() {
+        return 尿蛋白质;
+    }
+
+    public void set尿蛋白质(String 尿蛋白质) {
+        this.尿蛋白质 = 尿蛋白质;
+    }
+
+    public String get葡萄糖() {
+        return 葡萄糖;
+    }
+
+    public void set葡萄糖(String 葡萄糖) {
+        this.葡萄糖 = 葡萄糖;
+    }
 
     public String get姓名() {
         return 姓名;
@@ -653,12 +668,12 @@ public class CheckContent {
         this.球蛋白 = 球蛋白;
     }
 
-    public String get球比值G() {
-        return 球比值G;
+    public String get球比值() {
+        return 球比值;
     }
 
-    public void set球比值G(String 球比值G) {
-        this.球比值G = 球比值G;
+    public void set球比值(String 球比值) {
+        this.球比值 = 球比值;
     }
 
     public String get尿素氮() {
@@ -723,14 +738,6 @@ public class CheckContent {
 
     public void set胆红素(String 胆红素) {
         this.胆红素 = 胆红素;
-    }
-
-    public String get尿蛋白质葡萄糖() {
-        return 尿蛋白质葡萄糖;
-    }
-
-    public void set尿蛋白质葡萄糖(String 尿蛋白质葡萄糖) {
-        this.尿蛋白质葡萄糖 = 尿蛋白质葡萄糖;
     }
 
     public String get尿比重() {
