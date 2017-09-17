@@ -113,9 +113,6 @@ public class Word2excel {
             // 整个表的文本
             String text = table.getText();
 
-            // System.out.println(String.format("当前第%s段\n", ++index));
-            // System.out.println(text);
-
             // 拿到每一行
             table.getNumberOfRows();
             List<XWPFTableRow> rows = table.getRows();
@@ -135,6 +132,9 @@ public class Word2excel {
                     XWPFTableCell tableCell = iterator.next();
                     String label = tableCell.getText();
 
+                    if (containList(label, "平均红细胞血红蛋白量")) {
+                        System.out.println(label);
+                    }
                     // 如果内容含有注解，则取得下一个装入对应的属性
                     for (Field field : fields) {
                         // 如果拿到字段名，则进行注入内容
@@ -187,11 +187,9 @@ public class Word2excel {
 
         Class<CheckContent> checkContentClass = CheckContent.class;
 
+        System.out.println(text);
         String[] needToDealFiles = new String[]{
-                "配偶职业及健康状况"
-                ,"吸烟史"
-                ,"饮酒史"
-                ,"饮酒史"
+                ""
         };
 
         Field[] fields = checkContentClass.getDeclaredFields();
@@ -213,12 +211,35 @@ public class Word2excel {
             }
         }
 
+        //吸烟史：经常吸(10 )支/天,共(3 )年　　,饮酒史：
         // 单独处理家族史
-        String s = "家族史\\S*\\s*(\\S*)";
+        String s = "家族史\\S*\\s*(\\S*)其它";
         Pattern pattern = Pattern.compile(s);
         Matcher matcher = pattern.matcher(text);
         if (matcher.find()) {
             checkContent.set家族史(matcher.group(1));
+        }
+        // 单独处理个人生活史
+        String liveHisTory = "吸烟史：(.*),饮酒";
+         pattern = Pattern.compile(liveHisTory);
+         matcher = pattern.matcher(text);
+        if (matcher.find()) {
+            checkContent.set吸烟史(matcher.group(1));
+        }
+        // 单独处理饮酒史
+        String drinkHisTory = "饮酒史：(.*),家族史";
+         pattern = Pattern.compile(drinkHisTory);
+         matcher = pattern.matcher(text);
+        if (matcher.find()) {
+            checkContent.set饮酒史(matcher.group(1));
+        }
+
+        // 单独处理饮酒史
+        String bearHisTory = "配偶职业及健康状况：(.*)";
+         pattern = Pattern.compile(bearHisTory);
+         matcher = pattern.matcher(text);
+        if (matcher.find()) {
+            checkContent.set配偶职业及健康状况(matcher.group(1));
         }
     }
 

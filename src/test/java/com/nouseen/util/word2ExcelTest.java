@@ -61,7 +61,7 @@ public class word2ExcelTest {
 
         String sheetName = "resultExcel";
 
-        XWPFDocument docx = new XWPFDocument(POIXMLDocument.openPackage("D:\\白书昌.docx"));
+        XWPFDocument docx = new XWPFDocument(POIXMLDocument.openPackage("D:\\宾开扬.docx"));
         CheckContent checkContent = Word2excel.dealXWPFDocument(docx);
 
 
