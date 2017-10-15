@@ -13,7 +13,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * Created by nouseen on 2017/9/16.
@@ -87,8 +86,8 @@ public class ExcelUtil {
             // 写入处理结果
             try {
                 //生成UUID文件名称
-                UUID uuid = UUID.randomUUID();
-                String filedisplay = uuid + ".xls";
+
+                String filedisplay = DateUtil.getDateTimeForFileName(new Date()) + ".xls";
                 //如果web项目，1、设置下载框的弹出（设置response相关参数)；2、通过httpservletresponse.getOutputStream()获取
                 OutputStream out = new FileOutputStream("D:\\result\\" + filedisplay);
                 workbook.write(out);

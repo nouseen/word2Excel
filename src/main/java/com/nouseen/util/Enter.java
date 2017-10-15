@@ -38,9 +38,18 @@ public class Enter {
         for (File file1 : tempList) {
             if (file1.getName().contains("docx")) {
                 // 打开文件
-                XWPFDocument docx = new XWPFDocument(POIXMLDocument.openPackage(file1.getAbsolutePath()));
-                // 解析为对像
-                CheckContent checkContent = Word2excel.dealXWPFDocument(docx);
+                XWPFDocument docx;
+                CheckContent checkContent;
+                try {
+                    docx = new XWPFDocument(POIXMLDocument.openPackage(file1.getAbsolutePath()));
+
+                    // 解析为对像
+                    checkContent = Word2excel.dealXWPFDocument(docx);
+                } catch (Exception e) {
+                    System.out.println(String.format("打开文件 %s出错", file1.getAbsolutePath()));
+                    continue;
+                }
+
                 // 添加到待处理列表
                 checkContentList.add(checkContent);
             }
